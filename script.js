@@ -29,3 +29,15 @@ const divide = function(...theArgs) {
     };
     return sum;
 };
+
+const operate = function(a, b, c) {
+    if (a === '+') {
+        return add(b, c);
+    } else if (a === '-') {
+        return subtract(b ,c);
+    } else if (a === '*') {
+        return multiply(b, c);
+    } else if (a === '/') {
+        return divide(b, c);
+    };
+};
