@@ -41,3 +41,12 @@ const operate = function(a, b, c) {
         return divide(b, c);
     };
 };
+
+const digits = document.querySelectorAll('.digits button');
+const output = document.querySelector('.output');
+
+digits.forEach((button) => {
+    button.addEventListener('click', () => {
+       output.textContent = button.textContent;
+    });
+});
