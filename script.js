@@ -42,11 +42,49 @@ const operate = function(a, b, c) {
     };
 };
 
+let input = {
+    digit: [...''],
+    operator: [...'']
+};
+
 const digits = document.querySelectorAll('.digits button');
+const operator = document.querySelectorAll('.operators button');
+const buttons = document.querySelectorAll('button');
+const equals = document.querySelector('#equals');
 const output = document.querySelector('.output');
+const clear = document.querySelector('#clear');
+
+let operatorNum = 0;
 
 digits.forEach((button) => {
+        button.addEventListener('click', () => {{
+           input.digit[operatorNum] += `${button.textContent}`;
+           input.digit[operatorNum] = input.digit[operatorNum].split("undefined").pop();
+        }
+})
+});
+
+operator.forEach((button) => {
+    button.addEventListener('click', () => {
+        input.operator[operatorNum] += `${button.textContent}`;
+        input.operator[operatorNum] = input.operator[operatorNum].split("undefined").pop();
+        operatorNum++;
+    });
+});
+
+buttons.forEach((button) => {
     button.addEventListener('click', () => {
        output.textContent = button.textContent;
     });
+});
+
+equals.addEventListener('click', () => {
+    output.textContent = operate(input.operator[0], parseInt(input.digit[0]), parseInt(input.digit[1]));
+});
+
+clear.addEventListener('click', () => {
+    output.textContent = 0;
+    operatorNum = 0;
+    input.digit = [...''];
+    input.operator = [...''];
 });
