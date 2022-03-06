@@ -4,8 +4,10 @@ const equals = document.querySelector('#equals');
 const clear = document.querySelector('#clear');
 const decimal = document.querySelector('#decimal');
 const output = document.querySelector('.output');
+const clearEntry = document.querySelector('#CE');
 let operatorNum = 0;
 let decimalClicked = false;
+let decimalNumber = false;
 
 const add = function(...theArgs) {
     let sum = theArgs[0];
@@ -63,10 +65,19 @@ let input = {
 
 digits.forEach((button) => {
         button.addEventListener('click', () => {{
-           input.digit[operatorNum] += `${button.textContent}`;
-           input.digit[operatorNum] = input.digit[operatorNum].split("undefined").pop();
-           output.textContent = input.digit[operatorNum];
-        }
+            if (decimalClicked && decimalNumber) {
+            input.digit[operatorNum] += `${button.textContent}`;
+            input.digit[operatorNum] = input.digit[operatorNum].split("undefined").pop();
+            output.textContent = input.digit[operatorNum];
+            decimalNumber = false;
+            } else if (!decimalNumber && decimalClicked) {
+                return;
+            } else {
+            input.digit[operatorNum] += `${button.textContent}`;
+            input.digit[operatorNum] = input.digit[operatorNum].split("undefined").pop();
+            output.textContent = input.digit[operatorNum];
+            }
+            }
 })
 });
 
@@ -75,6 +86,7 @@ decimal.addEventListener('click', () => {
     input.digit[operatorNum] += `.`;
     output.textContent = input.digit[operatorNum];
     decimalClicked = true;
+    decimalNumber = true;
     } else {return};
 });
 
@@ -90,12 +102,13 @@ operator.forEach((button) => {
 
 let sum = function() {
     if (operatorNum < 2) {
-        input.sum = operate(input.operator[0], parseInt(input.digit[0]), parseInt(input.digit[1]));
+        input.sum = operate(input.operator[0], parseFloat(input.digit[0]), parseFloat(input.digit[1]));
     } else {
-        input.sum = operate(input.operator[operatorNum - 1], input.sum, parseInt(input.digit[operatorNum]));
+        input.sum = operate(input.operator[operatorNum - 1], input.sum, parseFloat(input.digit[operatorNum]));
     };
     input.sum = Math.round(input.sum * 10) / 10;
     decimalClicked = false;
+    decimalNumber = false;
     return input.sum;
 };
 
@@ -114,4 +127,10 @@ clear.addEventListener('click', () => {
     input.digit = [...''];
     input.operator = [...''];
     input.sum = [];
+});
+
+clearEntry.addEventListener('click', () => {
+    input.digit[operatorNum] = input.digit[operatorNum].slice(0, -1);
+    input.digit[operatorNum] = input.digit[operatorNum].split("undefined").pop();
+    output.textContent = input.digit[operatorNum];
 });
